@@ -218,7 +218,6 @@ updatePlayerPosition = function() {
     player.y += 10
   if(player.pressingUp)
     player.y -= 10
-
   if(player.x < player.width/2)
       player.x = player.width/2
   if(player.x > WIDTH-player.width/2)
