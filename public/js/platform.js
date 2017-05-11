@@ -3,7 +3,6 @@ function Level(plan) {
   this.height = plan.length;
   this.grid = []
   this.actors = []
-
   for (var y = 0; y < this.height; y++) {
     var line = plan[y], gridLine = [];
     for (var x = 0; x < this.width; x++) {
@@ -12,14 +11,13 @@ function Level(plan) {
       if (Actor)
         this.actors.push(new Actor(new Vector(x, y), ch))
       else if (ch == "x")
-        fieldType == "wall"
+        fieldType = "wall"
       else if (ch == "!")
         fieldType = "lava"
       gridLine.push(fieldType)
     }
   this.grid.push(gridLine)
   }
-
   this.player = this.actors.filter(function(actor) {
     return actor.type == "player"
   })[0]
@@ -136,13 +134,10 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
   var width = this.wrap.clientWidth;
   var height = this.wrap.clientHeight;
   var margin = width / 3
-
-  //The viewport
   var left = this.wrap.scrollLeft
   var right = left + width
   var top = this.wrap.scrollTop 
   var bottom = top + height
-
   var player = this.level.player
   var center = player.pos.plus(player.size.times(0.5)).times(scale)
   if(center.x < left + margin) 
@@ -164,7 +159,6 @@ Level.prototype.obstacleAt = function(pos, size) {
   var xEnd = Math.ceil(pos.x + size.x)
   var yStart = Math.floor(pos.y)
   var yEnd = Math.ceil(pos.y + size.y)
-
   if (xStart < 0 || xEnd > this.width || yStart < 0)
     return "wall"
   if (yEnd > this.height)
@@ -194,7 +188,6 @@ var maxStep = 0.05
 Level.prototype.animate = function(step, keys) {
   if (this.status != null)
     this.finishDelay -= step
-
   while (step > 0) {
     var thisStep = Math.min(step, maxStep)
     this.actors.forEach(function(actor) {
@@ -228,7 +221,6 @@ Player.prototype.moveX = function(step, level, keys) {
   this.speed.x = 0;
   if (keys.left) this.speed.x -= playerXSpeed
   if (keys.right) this.speed.x += playerXSpeed
-
   var motion = new Vector(this.speed.x * step, 0)
   var newPos = this.pos.plus(motion)
   var obstacle = level.obstacleAt(newPos, this.size)
@@ -260,11 +252,9 @@ Player.prototype.moveY = function(step, level, keys) {
 Player.prototype.act = function(step, level, keys) {
   this.moveX(step, level, keys)
   this.moveY(step, level, keys)
-
   var otherActor = level.actorAt(this)
   if (otherActor)
     level.playerTouched(otherActor.type, otherActor)
-
   if (level.status == "lost") {
     this.pos.y += step
     this.size.y -= step

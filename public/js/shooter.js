@@ -1,8 +1,8 @@
 var can1 = document.getElementById("can1").getContext("2d")
-let HEIGHT = 500
-let WIDTH = 500
-let timeWhenGameStarted = Date.now()
-let message = 'Bouncing'
+var HEIGHT = 500
+var WIDTH = 500
+var timeWhenGameStarted = Date.now()
+var message = 'Bouncing'
 var enemyList = {}
 var upgradeList = {}
 var bulletList = {}
@@ -68,7 +68,6 @@ randomlyGenerateUpgrade = function() {
   var id = Math.random()
   var spdX = 0
   var spdY = 0
-
   if(Math.random() < 0.5) {
     var category = 'score'
     var color = 'orange'
@@ -162,7 +161,7 @@ updateEntity = function(something) {
   drawEntity(something)
 }
 
-//Using the Mouse
+////Note: Using the Mouse to move player
 // document.onmousemove = function(mouse) {
 //   var mouseX = mouse.clientX - 8;
 //   var mouseY = mouse.clientY -8;
@@ -235,12 +234,9 @@ update = function() {
   score++
   if(frameCount % 100 === 0)
     randomlyGenerateEnemy()
-
   if(frameCount % 75 === 0)
     randomlyGenerateUpgrade()
-
   player.attackCounter += player.attkSpd
-
   for(var key in bulletList) {
     updateEntity(bulletList[key])
     var toRemove = false
@@ -248,7 +244,6 @@ update = function() {
     if(bulletList[key].timer > 100) {
       toRemove = true
     }
-
     for(var key2 in enemyList) {
       var isColliding = testCollisionEntity(bulletList[key], enemyList[key2])
       if(isColliding) {
@@ -261,7 +256,6 @@ update = function() {
       delete bulletList[key]
     }
   }
-
   for(var key in upgradeList) {
     updateEntity(upgradeList[key])
     var isColliding = testCollisionEntity(player, upgradeList[key])
@@ -273,7 +267,6 @@ update = function() {
         delete upgradeList[key]  
      }    
   }
-
   for (var key in enemyList) {
      updateEntity(enemyList[key])
      var isColliding = testCollisionEntity(player, enemyList[key])
@@ -303,7 +296,6 @@ startNewGame = function() {
   randomlyGenerateEnemy()
   randomlyGenerateEnemy()
   randomlyGenerateEnemy()
-
 }
 
 randomlyGenerateEnemy = function() {
@@ -318,6 +310,5 @@ randomlyGenerateEnemy = function() {
 }
 
 startNewGame()
-
 update()
 setInterval(update, 40)
